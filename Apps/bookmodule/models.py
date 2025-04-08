@@ -6,5 +6,3 @@ class Book(models.Model):
     price = models.FloatField(default = 0.0)
     edition = models.SmallIntegerField(default = 1)
 
-mybook = Book(title = 'Continuous Delivery', author = 'J.Humble and D. Farley', edition = 1)
-mybook.save()

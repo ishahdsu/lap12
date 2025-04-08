@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book
+from django.db.models import Q
+from django.db.models import Count, Sum, Avg, Max, Min
 
 
 def index(request):
@@ -89,6 +91,53 @@ def complex_query(request):
         return render(request, 'bookmodule/bookList.html', {'books':mybooks})
     else:
         return render(request, 'bookmodule/index.html')
+    
+
+def task1(request):
+    mybooks=books=Book.objects.filter(Q(price__lte = 80)&Q(price__gt = 0) )
+    if len(mybooks)>=1:
+        return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+def task2(request):
+    mybooks=books=Book.objects.filter(Q(edition__gt = 3)&Q(price__gt = 0) &(Q(title__icontains = 'co')|Q(author__icontains = 'co')))
+    if len(mybooks)>=1:
+        return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+def task3(request):
+    mybooks=books=Book.objects.filter(~Q(edition__gt = 3)&Q(price__gt = 0) &(~Q(title__icontains = 'co')&~Q(author__icontains = 'co')))
+    if len(mybooks)>=1:
+        return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+
+def task4(request):
+    mybooks=books=Book.objects.all().order_by('title')
+    if len(mybooks)>=1:
+        return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+def task5(request):
+    mybooks = Book.objects.aggregate(
+        total_books=Count('id'),
+        total_price=Sum('price'),
+        avg_price=Avg('price'),
+        max_price=Max('price'),
+        min_price=Min('price')
+    )
+    if len(mybooks)>=1:
+        return render(request, 'bookmodule/task5.html', {'stats': mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+
+
+
+
 
  
 
