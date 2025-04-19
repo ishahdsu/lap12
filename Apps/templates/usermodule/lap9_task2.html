@@ -1,0 +1,41 @@
+<style>
+    table {
+        width: 75%;
+        border-collapse: collapse;
+        margin: 20px auto;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #c25a5a;
+        color: white;
+    }
+
+    h1 {
+        text-align: center;
+        font-family: 'Franklin Gothic Medium';
+        color: olivedrab;
+    }
+</style>
+
+<h1> Courses and Student Counts</h1>
+<table>
+    <tr>
+        <th>Course Name</th>
+        <th>Student Count</th>
+    </tr>
+    {% for course in course_counts %}
+    <tr>
+        <td>{{ course.title }}</td>
+        <td>{{ course.studentlap9_count }}</td>
+    </tr>
+    {% endfor %}
+</table>
