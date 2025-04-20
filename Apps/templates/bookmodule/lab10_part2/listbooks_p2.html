@@ -1,0 +1,79 @@
+<style>
+    table {
+        width: 75%;
+        border-collapse: collapse;
+        margin: 20px auto;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #c25a5a;
+        color: white;
+    }
+
+    h1 {
+        text-align: center;
+        font-family: 'Franklin Gothic Medium';
+        color: olivedrab;
+    }
+
+    .action-links {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .action-links a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: darkblue;
+        font-weight: bold;
+    }
+
+    .edit-delete {
+        display: flex;
+        gap: 10px;
+    }
+
+    .edit-delete a {
+        color: teal;
+    }
+</style>
+
+<h1>The Book List ( part 2 using Django forms)</h1>
+
+<div class="action-links">
+    <a href="{% url 'add_book_part2' %}">Add New Book</a>
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Book Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>Edition</th>
+        <th>Actions</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.price }}</td>
+        <td>{{ book.edition }}</td>
+        <td class="edit-delete">
+            <a href="{% url 'edit_book_part2' book.id %}"> Edit</a>
+            <a href="{% url 'delete_book_part2' book.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+

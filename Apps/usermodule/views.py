@@ -24,6 +24,7 @@ def lap9_task3(request):
     department_id = department.objects.annotate(studentlap9_oldest=Min('studentlap9'))
     return render(request, 'usermodule/lap9_task3.html', {'department_id': department_id})
 
+
 def lap9_task4(request):
     dep_counts = department.objects.annotate(studentlap9_count=Count('studentlap9')).filter(studentlap9_count__gt=2).order_by('-studentlap9_count')
     return render(request, 'usermodule/lap9_task1.html', {'dep_counts': dep_counts})
