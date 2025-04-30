@@ -205,17 +205,3 @@ def delete_book_part2(request, id):
         return redirect('list_books_part2')
     return render(request, 'bookmodule/lab10_part2/deletebook_p2.html', {'book': book})
 
-
-
-    
-
-
-
-
-
- 
-
-
-
- 
-
