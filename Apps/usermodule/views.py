@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count , Min
 from .models import address ,student , course , department , studentlap9 , card , student2
-from .forms import StudentForm , Student2Form , PhotoForm
+from .forms import StudentForm , Student2Form , PhotoForm , SignUpForm
+from django.contrib.auth import logout ,login
+from django.contrib.auth.forms import  AuthenticationForm
+from django.contrib import messages
+
 
 
 def task7(request):
@@ -32,10 +36,13 @@ def lap9_task4(request):
     return render(request, 'usermodule/lap9_task1.html', {'dep_counts': dep_counts})
 
 
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/users/login/')
 def lap11_task1_student_list(request):
     students = student.objects.all()
     return render(request, 'usermodule/lap11_task1/student_list.html', {'students': students})
+
 
 def lap11_task1_student_add(request):
     if request.method == 'POST':
@@ -110,6 +117,38 @@ def photo_upload(request):
     else:
         form = PhotoForm()
     return render(request, 'usermodule/photo_upload.html', {'form': form})
+
+
+def registerUser(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "You have successfully registered.")  # Optional success message
+            return redirect('login')
+    else:
+        form = SignUpForm()  # This ensures 'form' is always defined
+
+    return render(request, "usermodule/register.html", {"form": form})
+
+def logoutUser(request):
+    logout(request)
+    return redirect('task7') 
+
+def loginUser(request):
+    if request.method == "POST":
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, "Login successful.")  
+            return redirect('student_list')
+        else:
+            messages.error(request, "Invalid credentials.")
+    else:
+        form = AuthenticationForm()
+    return render(request, "usermodule/login.html", {"form": form})
+
 
 
 
